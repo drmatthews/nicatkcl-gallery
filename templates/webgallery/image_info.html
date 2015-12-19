@@ -1,0 +1,38 @@
+{% extends "webgallery/base/base.html" %}
+
+{% block title %}
+    {{ image.getName }}
+{% endblock %}
+
+{% block body %}
+
+
+    <table>
+        <tr>
+            <th>Dimensions (XY):</th>
+            <td>{{ image.getSizeX }} x {{ image.getSizeY }}</td>
+        </tr>
+        <tr>
+            <th>Pixels Type:</th>
+            <td>{{ image.getPixelsType }}</td>
+        </tr>
+        <tr>
+            <th>Pixels Size (XYZ) (&#181m):</th>
+            <td>
+                {{ image.getPixelSizeX|floatformat:4 }} x {{ image.getPixelSizeY|floatformat:4 }}
+                    {% if image.getPixelSizeZ %} x {{ image.getPixelSizeZ|floatformat:4 }} {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Z-sections/Timepoints:</th>
+            <td>{{ image.getSizeZ }} x {{ image.getSizeT }}</td>
+        </tr>
+        <tr>
+            <th>Channels:</th>
+            <td id='channel_names'>
+                {% for c in image.getChannels %}{% if not forloop.first %}, {% endif %}<span>{{ c.getLabel }}</span>{% endfor %}
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}
