@@ -40,14 +40,9 @@
 
     {% for i in dataset.listChildren %}
         <a href="{% url 'webgateway_full_viewer' i.id %}">
-            <img class="img-thumbnail" title="{{ i.getName }}" src="{% url 'webgateway.views.render_thumbnail' i.id 96 %}" style="width:128px; height:128px"/>
+            <img class="img-thumbnail" title="{{ i.getName }}" src="{% url 'webgateway.views.render_thumbnail' i.id 128 %}" style="width:128px; height:128px"/>
         </a>
-        <p style="margin-left:0px">
-            <form id="image_info_form" action="{% url 'webgallery_image_info' %}" method='POST'>{% csrf_token %}
-                <input id="image_info" type="hidden" name="imageId" value="{{ i.id }}">
-                <input id="info_button_link" type="submit" value="Image info">
-            </form>
-        </p>
+        <p><a href="{% url 'webgallery_image_infolink' i.id %}" onclick="load_info(event,this);" data-id='{{ i.id }}'>Image info</a></p>
     {% endfor %}
 
 {% endblock %}

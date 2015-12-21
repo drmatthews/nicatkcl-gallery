@@ -25,5 +25,6 @@ urlpatterns = patterns('django.views.generic.simple',
     # image view
     url( r'show_image/(?P<imageId>[0-9]+)/$', views.show_image, name='webgallery_show_image' ),
     url( r'image_info$', views.image_info, name='webgallery_image_info' ),
+    url( r'image_infolink/(?P<imageId>[0-9]+)/$', views.image_infolink, name='webgallery_image_infolink' ),
 
 )

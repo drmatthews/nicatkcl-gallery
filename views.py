@@ -347,6 +347,11 @@ def image_info(request, conn=None, **kwargs):
             error = json.dumps(rv)
             return HttpResponseBadRequest(error, content_type='application/json')
 
+        metadata = image.loadOriginalMetadata()
+        global_metadata = metadata[1]
+
+        camera = [v[1] for i, v in enumerate(global_metadata) if v[0] == 'Camera Type #1'][0]
+
         channel_names = []
         for c in image.getChannels():
             channel_names.append(c.getLabel())
@@ -367,7 +372,8 @@ def image_info(request, conn=None, **kwargs):
                 'sizeY': image.getSizeY(), 'sizeZ': image.getSizeZ(), \
                 'sizeT': image.getSizeT(), 'channel_names': channel_names,\
                 'pixels_type': image.getPixelsType(), 'pixelSizeX': pixelSizeX,\
-                'pixelSizeY': pixelSizeY, 'pixelSizeZ': pixelSizeZ}
+                'pixelSizeY': pixelSizeY, 'pixelSizeZ': pixelSizeZ,\
+                'camera': camera}
 
         data = json.dumps(rv)
         return HttpResponse(data, content_type='application/json')
@@ -376,6 +382,70 @@ def image_info(request, conn=None, **kwargs):
         # note to self - this needs to be done through a form submit
 
         imageId = request.POST['imageId']
+
+        image = conn.getObject("Image", imageId)
+        context = {'template': "webgallery/image_info.html"}
+        context['image'] = image
+
+        return context
+
+@login_required()
+@render_response()
+def image_infolink(request, imageId, conn=None, **kwargs):
+    """
+    Show image information
+    """
+    if request.is_ajax():
+        print request.POST
+        #imageId = request.POST['imageId']
+
+        image = conn.getObject("Image", imageId)
+        print imageId
+
+        if image is None:
+            message = 'image not found'
+            rv = {'success':False,'message':message}
+            error = json.dumps(rv)
+            return HttpResponseBadRequest(error, content_type='application/json')
+
+        metadata = image.loadOriginalMetadata()
+        global_metadata = metadata[1]
+
+        camera_list = [v[1] for i, v in enumerate(global_metadata) if v[0] == 'Camera Type #1']
+        camera = 'Not defined'
+        if camera_list:
+            camera = camera_list[0]
+
+        channel_names = []
+        for c in image.getChannels():
+            channel_names.append(c.getLabel())
+
+        pixelSizeX = 'Not defined'
+        if image.getPixelSizeX():
+            pixelSizeX = image.getPixelSizeX()
+
+        pixelSizeY = 'Not defined'
+        if image.getPixelSizeY():
+            pixelSizeY = image.getPixelSizeY()
+
+        pixelSizeZ = 'Not defined'
+        if image.getPixelSizeZ():
+            pixelSizeZ = image.getPixelSizeZ()
+
+        rv = {'image_name': image.getName(), 'sizeX': image.getSizeX(),\
+                'sizeY': image.getSizeY(), 'sizeZ': image.getSizeZ(), \
+                'sizeT': image.getSizeT(), 'channel_names': channel_names,\
+                'pixels_type': image.getPixelsType(), 'pixelSizeX': pixelSizeX,\
+                'pixelSizeY': pixelSizeY, 'pixelSizeZ': pixelSizeZ,\
+                'camera': camera}
+
+        data = json.dumps(rv)
+        return HttpResponse(data, content_type='application/json')
+    else:
+        # just in case javascript is turned off
+        # note to self - this needs to be done through a form submit
+
+        #imageId = request.POST['imageId']
 
         image = conn.getObject("Image", imageId)
         context = {'template': "webgallery/image_info.html"}

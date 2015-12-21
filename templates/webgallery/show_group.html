@@ -89,8 +89,8 @@
         <p class="pull-left">
             {% if p.image %}
             <a href="{% url 'webgallery_show_dataset' p.id %}">
-                <img class="img-thumbnail" title="{{ p.image.name }}" style="width:96px; height:96px" 
-                src="{% url 'webgateway.views.render_thumbnail' p.image.id 96 %}"/>
+                <img class="img-thumbnail" title="{{ p.image.name }}" style="width:128px; height:128px" 
+                src="{% url 'webgateway.views.render_thumbnail' p.image.id 128 %}"/>
             </a>
             {% endif %}
         </p>
