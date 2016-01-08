@@ -1,8 +1,8 @@
 {% extends "webgallery/base/base.html" %}
 
-{% block title %}
+<!--{% block title %}
     {{ dataset.getName }}
-{% endblock %}
+{% endblock %}-->
 
 {% block body %}
 
@@ -38,11 +38,21 @@
 
     <hr>
 
+    <div class="row" id="gallery-thumb">
     {% for i in dataset.listChildren %}
-        <a href="{% url 'webgateway_full_viewer' i.id %}">
-            <img class="img-thumbnail" title="{{ i.getName }}" src="{% url 'webgateway.views.render_thumbnail' i.id 128 %}" style="width:128px; height:128px"/>
-        </a>
-        <p><a href="{% url 'webgallery_image_infolink' i.id %}" onclick="load_info(event,this);" data-id='{{ i.id }}'>Image info</a></p>
+        <div class="item-container col-md-3">
+          <a href="{% url 'webgateway_full_viewer' i.id %}">
+              <img class="img-thumbnail" title="{{ i.getName }}" src="{% url 'webgateway.views.render_thumbnail' i.id 128 %}" style="width:128px; height:128px"/>
+          </a>
+          <p><a href="{% url 'webgallery_image_infolink' i.id %}" onclick="load_info(event,this);" data-id='{{ i.id }}'>Image info</a></p>          
+        </div>
+      {% if forloop.counter|divisibleby:4 %}
+    </div>
+    <div class="row" id="gallery-thumb">
+      {% endif %}
     {% endfor %}
+    </div>
+    </br>
+    <a href="{% url 'webgallery_showcase' %}">Back to gallery</a>
 
 {% endblock %}

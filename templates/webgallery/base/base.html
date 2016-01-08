@@ -38,6 +38,9 @@
         #about{
            cursor: pointer;
         }
+        #gallery-thumb {
+          padding-left: 60px;
+        }
     </style>
     <script type="text/javascript">
         function load_info(e,identifier) {
@@ -50,37 +53,14 @@
               url: $(identifier).attr('href'),
               data : {csrfmiddlewaretoken: '{{ csrf_token }}'},
               success: function(results) {
-                var image_name = results.image_name,
-                    sizeX = results.sizeX.toString(),
-                    sizeY = results.sizeY.toString(),
-                    sizeZ = results.sizeZ.toString(),
-                    sizeT = results.sizeT.toString(),
-                    pixels_type = results.pixels_type.toString(),
-                    pixelSizeX = results.pixelSizeX,
-                    pixelSizeY = results.pixelSizeY,
-                    pixelSizeZ = results.pixelSizeZ,
-                    channel_names = results.channel_names,
-                    camera = results.camera.toString();
-                if (jQuery.type(pixelSizeX) === "number"){
-                  pixelSizeX = pixelSizeX.toFixed(3).toString();
-                }
-                if (jQuery.type(pixelSizeY) === "number"){
-                  pixelSizeY = pixelSizeY.toFixed(3).toString();
-                }
-                if (jQuery.type(pixelSizeZ) === "number"){
-                  pixelSizeZ = pixelSizeZ.toFixed(3).toString();
-                }                                        
-                if (channel_names.length > 0){
-                  var cnames_text = "";
-                  for (i = 0; i < channel_names.length; i++) {
-                      cnames_text += "<span>"+ channel_names[i] + ",";
-                  }
-                  cnames_text = cnames_text.substring(0, cnames_text.length - 1) + "</span>";
-                } else {
-                  cnames_text = "No channel names defined";
-                }
+                $.each(results, function(k, v) {
+                    //display the key and value pair
+                    console.log(k + ' is ' + v);
+                    $(".modal-body #info_table > tbody:last-child").append('<tr><th>'+k+': '+'</th><td>'+v+'</td></tr>');
+                });
+                var image_name = results.Image_name;
                 $(".modal-header #image_info_modal_label").html( "Metadata for image: " + image_name );
-                $(".modal-body #info_table > tbody:last-child").append('<tr><th>Dimensions (XY): </th><td>'+sizeX+' x '+sizeY+'</td></tr><tr><th>Pixels Type: </th><td>'+pixels_type+'</td></tr><tr><th>Pixels Size (XYZ) (&#181m):</th><td>'+pixelSizeX+' x '+pixelSizeY+' x '+pixelSizeZ+'</td></tr><tr><th>Z-sections/Timepoints:</th><td>'+sizeZ+' x '+sizeT+'</td></tr><tr><th>Channels:</th><td>'+cnames_text+'</td></tr><tr><th>Camera:</th><td>'+camera+'</td></tr>');
+                //$(".modal-body #info_table > tbody:last-child").append('<tr><th>Dimensions (XY): </th><td>'+sizeX+' x '+sizeY+'</td></tr><tr><th>Pixels Type: </th><td>'+pixels_type+'</td></tr><tr><th>Pixels Size (XYZ) (&#181m):</th><td>'+pixelSizeX+' x '+pixelSizeY+' x '+pixelSizeZ+'</td></tr><tr><th>Z-sections/Timepoints:</th><td>'+sizeZ+' x '+sizeT+'</td></tr><tr><th>Channels:</th><td>'+cnames_text+'</td></tr><tr><th>Camera:</th><td>'+camera+'</td></tr><tr><th>sSpec:</th><td>'+sSpec+'</td></tr>');
                 $("#image_info_modal").modal('show');
               }
             });
@@ -105,11 +85,11 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="about_modal_label">About this app</h4>
+            <h4 class="modal-title" id="about_modal_label">About this gallery</h4>
           </div>
           <div class="modal-body">
             <p>
-              This app was is a heavily modified version of <a href="https://github.com/ome/gallery">'OMERO.gallery'</a> written and maintained by Daniel Matthews (NIC Manager). It is used to showcase the best images captured at the <a href="http://www.kcl.ac.uk/innovation/research/corefacilities/smallrf/nikon/index.aspx">Nikon Imaging Centre @ King's College London</a>. The data is all 'as captured' (i.e. no processing and no manipulation).
+              This is a heavily modified version of <a href="https://github.com/ome/gallery">OMERO.gallery</a> written and maintained by Daniel Matthews (NIC@King's Manager). It is used to showcase the best images captured at the <a href="http://www.kcl.ac.uk/innovation/research/corefacilities/smallrf/nikon/index.aspx">Nikon Imaging Centre @ King's College London</a>. The data is all 'as captured' (i.e. no processing and no manipulation).
             </p>
           </div>
           <div class="modal-footer">
@@ -152,7 +132,7 @@
     <div class="container">
       <!-- Example row of columns -->
       {% block body %}
-        {% endblock %}
+      {% endblock %}
 
       <hr>
 

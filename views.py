@@ -5,6 +5,36 @@ from omero.rtypes import wrap
 from omeroweb.webclient.decorators import login_required, render_response
 
 import json
+import re
+import collections
+
+def list_from_string(expression,str):
+    pattern = re.compile(expression)
+    split = str.split('\n')
+
+    words = []
+    for l in split:
+        for w in re.findall(pattern,l):
+            #words.append(w.split('\n', 1)[0])
+            words.append(w)
+    return words
+
+def dict_from_string(str):
+    key_expression = r"\{([\sA-Za-z0-9_()/]+)\}"
+    keys = list_from_string(key_expression,str)
+    if not keys:
+        key_expression = r"([\sA-Za-z0-9_()/]+)\:"
+        keys = list_from_string(key_expression,str)
+
+    val_expression = r"\:([\sA-Za-z0-9_/-]+)"
+    vals = list_from_string(val_expression,str)
+
+    if len(keys) == len(vals):
+        dictionary = dict()
+        for i in range(len(keys)):
+            dictionary[keys[i]] = vals[i]
+
+    return dictionary
 
 
 @login_required()
@@ -410,6 +440,9 @@ def image_infolink(request, imageId, conn=None, **kwargs):
 
         metadata = image.loadOriginalMetadata()
         global_metadata = metadata[1]
+        sSpec = [v[1] for i, v in enumerate(global_metadata) if v[0] == 'sSpecSettings']
+
+        sSpecSettings = dict_from_string(sSpec[0])
 
         camera_list = [v[1] for i, v in enumerate(global_metadata) if v[0] == 'Camera Type #1']
         camera = 'Not defined'
@@ -423,23 +456,27 @@ def image_infolink(request, imageId, conn=None, **kwargs):
         pixelSizeX = 'Not defined'
         if image.getPixelSizeX():
             pixelSizeX = image.getPixelSizeX()
+            pixelSizeX = "{0:.3f}".format(pixelSizeX)
 
         pixelSizeY = 'Not defined'
         if image.getPixelSizeY():
             pixelSizeY = image.getPixelSizeY()
+            pixelSizeY = "{0:.3f}".format(pixelSizeY)
 
         pixelSizeZ = 'Not defined'
         if image.getPixelSizeZ():
             pixelSizeZ = image.getPixelSizeZ()
+            pixelSizeZ = "{0:.3f}".format(pixelSizeZ)
 
-        rv = {'image_name': image.getName(), 'sizeX': image.getSizeX(),\
-                'sizeY': image.getSizeY(), 'sizeZ': image.getSizeZ(), \
-                'sizeT': image.getSizeT(), 'channel_names': channel_names,\
-                'pixels_type': image.getPixelsType(), 'pixelSizeX': pixelSizeX,\
-                'pixelSizeY': pixelSizeY, 'pixelSizeZ': pixelSizeZ,\
-                'camera': camera}
-
-        data = json.dumps(rv)
+        basic = {'Image_name': image.getName(), 'size X': image.getSizeX(),\
+                'size Y': image.getSizeY(), 'size Z': image.getSizeZ(), \
+                'size T': image.getSizeT(), 'Channel names': channel_names,\
+                'Pixels type': image.getPixelsType(), 'Pixel size X (um)': pixelSizeX,\
+                'Pixel size Y (um)': pixelSizeY, 'Pixel size Z (um)': pixelSizeZ,\
+                'Camera': camera}
+        rv = basic.copy()
+        rv.update(sSpecSettings)
+        data = json.dumps(collections.OrderedDict(sorted(rv.items())))
         return HttpResponse(data, content_type='application/json')
     else:
         # just in case javascript is turned off
