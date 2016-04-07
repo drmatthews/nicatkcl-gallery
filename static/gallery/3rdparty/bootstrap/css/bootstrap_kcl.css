@@ -3726,13 +3726,20 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin-bottom: 0;
   border-width: 1px 0 0;
 }
-.navbar-brand {
+/*.navbar-brand {
   position: absolute;
-  left: 50%;
+  left: 0;
   margin-left: -50px !important;  /* 50% of your logo width */
-  font-size: 18px;
+/*  font-size: 18px;
   line-height: 20px;
   height: 50px;
+}*/
+.navbar-brand {
+  float: left;
+  line-height: 20px;
+  height: 50px;
+  font-size: 18px;
+  line-height: 20px;
 }
 .navbar-brand:hover,
 .navbar-brand:focus {

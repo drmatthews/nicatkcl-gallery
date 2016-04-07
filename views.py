@@ -4,6 +4,8 @@ import omero
 from omero.rtypes import wrap
 from omeroweb.webclient.decorators import login_required, render_response
 
+from gallery import settings
+
 import json
 import re
 import collections
@@ -81,37 +83,48 @@ def index(request, conn=None, **kwargs):
 @render_response()
 def showcase(request, conn=None, **kwargs):
 
-    myGroups = list(conn.getGroupsMemberOf())
+    # myGroups = list(conn.getGroupsMemberOf())
+    # print myGroups
 
-    # Need a custom query to get 1 (random) image per Project
-    queryService = conn.getQueryService()
-    params = omero.sys.ParametersI()
-    params.theFilter = omero.sys.Filter()
-    params.theFilter.limit = wrap(1)
+    # print "group from settings"
+    # print settings.SHOWCASE_GROUP
 
-    query = "select count(obj.id) from %s as obj"
+    # # Need a custom query to get 1 (random) image per Project
+    # queryService = conn.getQueryService()
+    # params = omero.sys.ParametersI()
+    # params.theFilter = omero.sys.Filter()
+    # params.theFilter.limit = wrap(1)
 
-    groups = []
-    for g in myGroups:
-        conn.SERVICE_OPTS.setOmeroGroup(g.id)
-        projects = []
-        images = list(conn.getObjects("Image", params=params))
-        if len(images) == 0:
-            continue        # Don't display empty groups
-        pCount = queryService.projection(query % 'Project', None, conn.SERVICE_OPTS)
-        dCount = queryService.projection(query % 'Dataset', None, conn.SERVICE_OPTS)
-        iCount = queryService.projection(query % 'Image', None, conn.SERVICE_OPTS)
-        if 'showcase' in g.getName().lower():
-            groupId = g.getId()
+    # query = "select count(obj.id) from %s as obj"
 
-        groups.append({'id': g.getId(),
-                'name': g.getName(),
-                'description': g.getDescription(),
-                'projectCount': pCount[0][0]._val,
-                'datasetCount': dCount[0][0]._val,
-                'imageCount': iCount[0][0]._val,
-                'image': len(images) > 0 and images[0] or None})
+    # # Need a better way to get the "Showcase" group
+    # # this produces an exception when there aren't 
+    # # any images
+    # groups = []
+    # for g in myGroups:
+    #     print "group",g.id
+    #     conn.SERVICE_OPTS.setOmeroGroup(g.id)
+    #     projects = []
+    #     images = list(conn.getObjects("Image", params=params))
+    #     print "num images",len(images)
+    #     if len(images) == 0:
+    #         continue        # Don't display empty groups
+    #     pCount = queryService.projection(query % 'Project', None, conn.SERVICE_OPTS)
+    #     dCount = queryService.projection(query % 'Dataset', None, conn.SERVICE_OPTS)
+    #     iCount = queryService.projection(query % 'Image', None, conn.SERVICE_OPTS)
+    #     if 'showcase' in g.getName().lower():
+    #         groupId = g.getId()
 
+    #     groups.append({'id': g.getId(),
+    #             'name': g.getName(),
+    #             'description': g.getDescription(),
+    #             'projectCount': pCount[0][0]._val,
+    #             'datasetCount': dCount[0][0]._val,
+    #             'imageCount': iCount[0][0]._val,
+    #             'image': len(images) > 0 and images[0] or None})
+    # print groups
+
+    groupId = settings.SHOWCASE_GROUP['groupId']
     conn.SERVICE_OPTS.setOmeroGroup(groupId)
 
     s = conn.groupSummary(groupId)
@@ -120,10 +133,15 @@ def showcase(request, conn=None, **kwargs):
     group = conn.getObject("ExperimenterGroup", groupId)
 
     # Get NEW user_id, OR current user_id from session OR 'All Members' (-1)
-    user_id = request.REQUEST.get('user_id', request.session.get('user_id', -1))
+    if request.GET:
+        user_id = request.GET['user_id']
+    else:
+        user_id = request.session.get('user_id', -1)
+    # user_id = request.REQUEST.get('user_id', request.session.get('user_id', -1))
     userIds = [u.id for u in group_owners]
     userIds.extend([u.id for u in group_members])
     user_id = int(user_id)
+
     if user_id not in userIds and user_id is not -1:        # Check user is in group
         user_id = -1
     request.session['user_id'] = int(user_id)    # save it to session

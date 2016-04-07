@@ -12,36 +12,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'gallery/3rdparty/bootstrap/css/bootstrap_kcl.css' %}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <style>
-        body {
-          padding-top: 50px;
-          padding-bottom: 20px;
-        }
-        #showcase-carousel{
-          padding-top: 10px;
-          padding-bottom: 10px;
-        }
-        #info_button_link { 
-           padding-top: 0px;
-           padding-left: 25px;
-           background: none;
-           border: none;
-           color: #33ccff;
-           cursor: pointer; 
-        }
-        #info_button_link:hover {
-           color: #3366cc;
-           text-decoration: underline;
-        }
-        #about{
-           cursor: pointer;
-        }
-        #gallery-thumb {
-          padding-left: 60px;
-        }
-    </style>
+    <link href="{% static 'gallery/css/custom.css' %}" rel="stylesheet">    
     <script type="text/javascript">
         function load_info(e,identifier) {
             e.preventDefault();
@@ -101,6 +72,9 @@
 
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
+        <a class="navbar-brand navbar-left" href="{% url 'webgallery_showcase' %}"><img class="navbar-brand navbar-left" src="{% static 'gallery/img/banner.png' %}" style="height:50px;">
+        <h4 id="heading">KCL Showcase gallery</h4></a>
+        <a class="navbar-brand navbar-right" href="http://www.kcl.ac.uk/index.aspx"><img class="pull-right" src="{% static 'gallery/img/bigkcl.png' %}" style="height:50px;"></a>      
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -108,8 +82,6 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <!--<a href="{% url 'webgallery_showcase' %}" class="pull-left"><img src="{% static 'gallery/img/banner.png' %}" style="height:50px;">-->
-          <a class="navbar-brand" href="{% url 'webgallery_showcase' %}"><img src="{% static 'gallery/img/banner.png' %}" style="height:50px;"></a>
         </div>
         {% if ome.user.isAdmin %}
           <div class="navbar-collapse collapse pull-right">
