@@ -11,8 +11,9 @@ import json
 CUSTOM_SETTINGS_MAPPINGS = {
     "omero.web.gallery.showcase_group": ["SHOWCASE_GROUP", '{"groupId": "val"}', json.loads, None]
 }
-
+```
 Then load the group ID in views.py:
 
 ```python
 groupId = settings.SHOWCASE_GROUP['groupId']
+```
