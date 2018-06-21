@@ -1,1 +1,1 @@
-default_app_config = 'nic_at_kcl_gallery.apps.GalleryAppConfig'
+default_app_config = 'nicatkcl_gallery.apps.GalleryAppConfig'

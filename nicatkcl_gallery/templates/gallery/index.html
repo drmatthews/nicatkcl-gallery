@@ -20,7 +20,7 @@ OMERO.web Gallery
         <h2>{{ g.name }}</h2>
         <p class="pull-left">
             {% if g.image %}
-            <a href="{% url 'nic_at_kcl_gallery_show_group' g.id %}">
+            <a href="{% url 'nicatkcl_gallery_show_group' g.id %}">
                 <img class="img-thumbnail" title="{{ g.image.name }}" style="width:96px; height:96px" 
                 src="{% url 'webgateway.views.render_thumbnail' g.image.id 96 %}"/>
             </a>
@@ -34,7 +34,7 @@ OMERO.web Gallery
             </ul>
             <div class="clearfix"></div>
             <p style="margin-left:20px">
-                <a class="btn btn-default" href="{% url 'nic_at_kcl_gallery_show_group' g.id %}" role="button">View details &raquo;</a>
+                <a class="btn btn-default" href="{% url 'nicatkcl_gallery_show_group' g.id %}" role="button">View details &raquo;</a>
             </p>
         </div>
         <div class="clearfix"></div>

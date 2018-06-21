@@ -12,7 +12,7 @@ from omeroweb.http import HttpJavascriptResponse,\
 
 from omeroweb.webgateway.marshal import imageMarshal
 
-from nic_at_kcl_gallery import settings
+from nicatkcl_gallery import settings
 
 import json
 import re

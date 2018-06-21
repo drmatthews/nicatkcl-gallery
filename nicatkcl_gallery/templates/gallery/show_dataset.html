@@ -28,7 +28,7 @@
 
     {% if dataset.getParent %}
     {% with p=dataset.getParent %}
-        Back to: <a href="{% url 'nic_at_kcl_gallery_show_project' p.id %}">{{ p.getName }}</a>
+        Back to: <a href="{% url 'nicatkcl_gallery_show_project' p.id %}">{{ p.getName }}</a>
     {% endwith %}
     {% endif %}
 
@@ -44,8 +44,8 @@
           <a href="{% url 'webgateway_full_viewer' i.id %}">
               <img class="img-thumbnail" title="{{ i.getName }}" src="{% url 'webgateway.views.render_thumbnail' i.id 128 %}" style="width:128px; height:128px"/>
           </a>
-          <p><a href="{% url 'nic_at_kcl_gallery_image_infolink' i.id %}" onclick="load_info(event,this);" data-id='{{ i.id }}'>Image info</a></p>
-          <p><a href="{% url 'nic_at_kcl_gallery_imageData_json' i.id %}">JSON Image info</a></p>          
+          <p><a href="{% url 'nicatkcl_gallery_image_infolink' i.id %}" onclick="load_info(event,this);" data-id='{{ i.id }}'>Image info</a></p>
+          <p><a href="{% url 'nicatkcl_gallery_imageData_json' i.id %}">JSON Image info</a></p>          
         </div>
       {% if forloop.counter|divisibleby:4 %}
     </div>
@@ -54,7 +54,7 @@
     {% endfor %}
     </div>
     </br>
-    <a href="{% url 'nic_at_kcl_gallery_showcase' %}">Back to gallery</a>
+    <a href="{% url 'nicatkcl_gallery_showcase' %}">Back to gallery</a>
 
     {% block extra_js %}
     {{ block.super }}

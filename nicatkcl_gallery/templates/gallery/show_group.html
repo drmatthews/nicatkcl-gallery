@@ -13,7 +13,7 @@
         <h2>{{ p.name }}</h2>
         <p class="pull-left">
             {% if p.image %}
-            <a href="{% url 'nic_at_kcl_gallery_show_project' p.id %}">
+            <a href="{% url 'nicatkcl_gallery_show_project' p.id %}">
                 <img class="img-thumbnail" title="{{ p.image.name }}" style="width:96px; height:96px" 
                 src="{% url 'webgateway.views.render_thumbnail' p.image.id 96 %}"/>
             </a>
@@ -26,7 +26,7 @@
             </ul>
             <div class="clearfix"></div>
             <p style="margin-left:20px">
-                <a class="btn btn-default" href="{% url 'nic_at_kcl_gallery_show_project' p.id %}" role="button">View details &raquo;</a>
+                <a class="btn btn-default" href="{% url 'nicatkcl_gallery_show_project' p.id %}" role="button">View details &raquo;</a>
             </p>
         </div>
         <div class="clearfix"></div>
@@ -42,7 +42,7 @@
         <h2>{{ p.name }}</h2>
         <p class="pull-left">
             {% if p.image %}
-            <a href="{% url 'nic_at_kcl_gallery_show_dataset' p.id %}">
+            <a href="{% url 'nicatkcl_gallery_show_dataset' p.id %}">
                 <img class="img-thumbnail" title="{{ p.image.name }}" style="width:128px; height:128px" 
                 src="{% url 'webgateway.views.render_thumbnail' p.image.id 128 %}"/>
             </a>
@@ -54,7 +54,7 @@
             </ul>
             <div class="clearfix"></div>
             <p style="margin-left:20px">
-                <a class="btn btn-default" href="{% url 'nic_at_kcl_gallery_show_dataset' p.id %}" role="button">View details &raquo;</a>
+                <a class="btn btn-default" href="{% url 'nicatkcl_gallery_show_dataset' p.id %}" role="button">View details &raquo;</a>
             </p>
         </div>
         <div class="clearfix"></div>
