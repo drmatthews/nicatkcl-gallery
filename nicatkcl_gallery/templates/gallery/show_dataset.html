@@ -1,0 +1,88 @@
+{% extends "gallery/base/base.html" %}
+
+<!--{% block title %}
+    {{ dataset.getName }}
+{% endblock %}-->
+
+{% block body %}
+
+    <!-- image info modal -->
+    <div class="modal fade" id="image_info_modal" tabindex="-1" role="dialog" aria-labelledby="image_info_modal_label">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="image_info_modal_label">{{ image.getName }}</h4>
+          </div>
+          <div class="modal-body">
+            <table id="info_table">
+                <tbody></tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if dataset.getParent %}
+    {% with p=dataset.getParent %}
+        Back to: <a href="{% url 'nic_at_kcl_gallery_show_project' p.id %}">{{ p.getName }}</a>
+    {% endwith %}
+    {% endif %}
+
+    <h2>{{ dataset.getName }}</h2>
+
+    <p>{{ dataset.getDescription }}</p>
+
+    <hr>
+
+    <div class="row" id="gallery-thumb">
+    {% for i in dataset.listChildren %}
+        <div class="item-container col-md-3">
+          <a href="{% url 'webgateway_full_viewer' i.id %}">
+              <img class="img-thumbnail" title="{{ i.getName }}" src="{% url 'webgateway.views.render_thumbnail' i.id 128 %}" style="width:128px; height:128px"/>
+          </a>
+          <p><a href="{% url 'nic_at_kcl_gallery_image_infolink' i.id %}" onclick="load_info(event,this);" data-id='{{ i.id }}'>Image info</a></p>
+          <p><a href="{% url 'nic_at_kcl_gallery_imageData_json' i.id %}">JSON Image info</a></p>          
+        </div>
+      {% if forloop.counter|divisibleby:4 %}
+    </div>
+    <div class="row" id="gallery-thumb">
+      {% endif %}
+    {% endfor %}
+    </div>
+    </br>
+    <a href="{% url 'nic_at_kcl_gallery_showcase' %}">Back to gallery</a>
+
+    {% block extra_js %}
+    {{ block.super }}
+      <script type="text/javascript">
+          function load_info(e,identifier) {
+              e.preventDefault();
+              $(".modal-body #info_table").empty();
+              $(".modal-body #info_table").append('<tbody></tbody>');
+              var image_id = $(identifier).data("id");
+              $.ajax({
+                type: "GET",
+                url: $(identifier).attr('href'),
+                data : {csrfmiddlewaretoken: '{{ csrf_token }}'},
+                success: function(results) {
+                  $.each(results, function(k, v) {
+                      //display the key and value pair
+                      console.log(k + ' is ' + v);
+                      $(".modal-body #info_table > tbody:last-child").append('<tr><th>'+k+': '+'</th><td>'+v+'</td></tr>');
+                  });
+                  var image_name = results.Image_name;
+                  $(".modal-header #image_info_modal_label").html( "Metadata for image: " + image_name );
+                  //$(".modal-body #info_table > tbody:last-child").append('<tr><th>Dimensions (XY): </th><td>'+sizeX+' x '+sizeY+'</td></tr><tr><th>Pixels Type: </th><td>'+pixels_type+'</td></tr><tr><th>Pixels Size (XYZ) (&#181m):</th><td>'+pixelSizeX+' x '+pixelSizeY+' x '+pixelSizeZ+'</td></tr><tr><th>Z-sections/Timepoints:</th><td>'+sizeZ+' x '+sizeT+'</td></tr><tr><th>Channels:</th><td>'+cnames_text+'</td></tr><tr><th>Camera:</th><td>'+camera+'</td></tr><tr><th>sSpec:</th><td>'+sSpec+'</td></tr>');
+                  $("#image_info_modal").modal('show');
+                }
+              });
+
+          }
+      </script>    
+    {% endblock %}
+
+{% endblock %}

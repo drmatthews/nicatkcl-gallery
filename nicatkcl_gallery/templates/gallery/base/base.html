@@ -1,0 +1,286 @@
+
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>NIC Home | wiki</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="{% static 'gallery/img/wiki_favicon.ico' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">        
+    <link rel="stylesheet" type="text/css" href="{% static 'gallery/css/wiki.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'gallery/css/syntax.css' %}">
+
+    <script src="https://use.fontawesome.com/75c38f87d8.js"></script>        
+</head>
+
+<body class="template-wikipage">
+
+    <header id="branding">
+        <div class="hgroup-wrap">
+            <div class="container-fluid">
+                <section class="hgroup-right" class="clearfix"></section>
+                <section id="site-logo">
+                    <h1 id="site-title">
+                        <a href="/wiki">Nikon Imaging Centre @ KCL Wiki</a>
+                    </h1>
+                </section>
+            </div>
+        </div>
+        <div class="header-main">
+
+
+            <nav class="navbar navbar-default" id="main-nav">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nicnavbar" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <a href="/" class="navbar-brand" title="NIC Home" data-placement="bottom">
+                            <i class="glyphicon glyphicon-home"></i>
+                        </a>
+                    </div>
+                    <div class="navbar-collapse collapse" id="nicnavbar">
+                        <ul class="nav navbar-nav">
+
+                            <li class="">
+
+                                <a href="">user guides</a>
+
+                            </li>       
+
+                            <li class="dropdown">
+
+                                <a class="dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">tips and tricks <b class="caret"></b></a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                                    <li><a href="None">nis-elements</a></li>
+
+                                </ul>
+
+                            </li>       
+
+                        </ul>
+                        <form class="navbar-form navbar-right" role="search" action="/search_wiki/" method="get">
+                            <div class="input-group">
+                                <input type="text" name="query" class="form-control" placeholder="Search…" value="" />
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8 content">
+
+                    <section>
+
+
+                        <section class="block-paragraph">
+
+                            {% block body %}
+                            {% endblock %}
+                        </section>              
+
+
+                    </section>
+
+                </div>
+                <div class="col-md-4">
+                    <div id="sidebar">
+                        <aside id="contact-info">
+                            <h3 class="sidebar-title">Contact</h3>
+                            <p>
+                                Scientific Director:
+                                <a href="mailto:maddy.parsons@kcl.ac.uk">Prof Maddy Parsons</a>
+                            </p>
+                            <p>
+                                Manager:
+                                <a href="mailto:daniel.r.matthews@kcl.ac.uk">Dr Daniel Matthews</a>
+                            </p>
+                            <p>
+                                Deputy manager:
+                                <a href="mailto:isma.ali@kcl.ac.uk">Miss Isma Ali</a>
+                            </p>
+                            <p>
+                                Deputy manager:
+                                <a href="mailto:benjamin.robinson@kcl.ac.uk@kcl.ac.uk">Dr Ben Robinson</a>
+                            </p>
+                            <p>
+                                <a href="https://ppms.eu/kcl/login/?pf=2">Request a training session</a>
+                            </p>                
+                        </aside>
+
+                        <aside>
+                            <h3 class="sidebar-title">Find us</h3>
+                            <div style='overflow:hidden;height:250px;width:250px;padding-bottom:20px;'>
+                                <div id='gmap_canvas' style='height:250px;width:250px;'></div>
+                                <style type="text/css">
+                                    #gmap_canvas img{max-width:none!important;background:none!important;}
+                                </style>
+                            </div>
+
+                            <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDDUWNowhT-lQqIR6unD2ZbesgZdcVZr1E'></script>
+
+                            <script type='text/javascript'>
+                                function init_map(){
+                                    var lat = 51.50274899999999,
+                                    lon = -0.09010880000005272,
+                                    zoom_level = 14;
+                                    var myOptions = {
+                                        zoom:zoom_level,
+                                        center:new google.maps.LatLng(lat,lon),
+                                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                                    };
+
+                                    map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
+                                    marker = new google.maps.Marker({
+                                        map: map,
+                                        position: new google.maps.LatLng(lat,lon)
+                                    });
+                                    infowindow = new google.maps.InfoWindow({
+                                        content:'<strong>NIC@KCL</strong><br>Newcomen St<br>SE1 1UL London<br>'
+                                    });
+                                    google.maps.event.addListener(marker, 'click', function(){
+                                        infowindow.open(map,marker);
+                                    });
+                                }
+                                google.maps.event.addDomListener(window, 'load', init_map);
+                            </script>
+                        </aside>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <footer class="footer-bs">
+        <div class="row">
+            <div class="col-md-3 footer-brand">
+                <img src="{% static 'gallery/img/nic-banner-wiki-logo.png' %}">
+                <p>The Nikon Imaging Centre at King’s College London (NIC@King's) is a core facility for light microscopy developed in partnership between King’s College London and Nikon Instruments UK.</p>
+                <p>© 2017 Nikon Imaging Centre, King's College London, All rights reserved</p>
+            </div>
+            <div class="col-md-4 footer-nav">
+                <h4>Menu —</h4>
+                <div class="col-md-6">
+                    <ul class="pages">
+
+                        <li><a href="/">NIC Home</a></li>      
+
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list">
+                        <li><a href="/mission/">About Us</a></li>
+                        <li><a href="/contact/">Contacts</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2 footer-social">
+                <h4>Follow Us</h4>
+                <ul>
+                    <li><a href="https://twitter.com/NIC_At_Kings" ><i class="fa fa-twitter-square" aria-hidden="true">&nbsp; @NIC_At_Kings</i></a></li>
+                    <li><a href="https://www.instagram.com/nicatkcl/"><i class="fa fa-instagram" aria-hidden="true"></i>&nbsp; Instagram</a></li>
+                    <li><a href="/news-feed/"><i class="fa fa-rss-square" aria-hidden="true"></i>&nbsp; Feed</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-ns">
+                <h4>Newsletter</h4>
+                <p>To keep up to date, subscribe to our newsletter</p>
+                <style type="text/css">
+                    #mc_embed_signup{width:500px;}
+            /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+            We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                </style>
+
+                <p>
+                    <div id="mc_embed_signup">
+                        <form class="form-inline" action="//kcl.us15.list-manage.com/subscribe/post?u=43a71ae0decda194a6c03beb6&amp;id=5d0ad6684c" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                            <div class="form-group">
+                                <div class="input-group input-group-md">
+                                    <input type="email" value="" name="EMAIL" class="form-control" placeholder="Email address" required>
+                                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_43a71ae0decda194a6c03beb6_5d0ad6684c" tabindex="-1" value=""></div> 
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-envelope"></span></button>
+                                    </span>
+                                </div><!-- /input-group -->
+                            </div>
+                        </form>
+                    </div>
+                </p>
+                <p>
+                    <div id="mce-responses" class="clear">
+                        <div class="response" id="mce-error-response" style="display:none"></div>
+                        <div class="response" id="mce-success-response" style="display:none"></div>
+                    </div>
+                </p>
+
+                <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);
+                </script>
+                <!--End mc_embed_signup-->
+                </div>
+            </div>
+        </footer>
+
+        {% block extracss %}
+        <style type="text/css">
+            .wagtail-userbar-trigger, .wagtail-icon-wagtail:before {
+                content: "\f013";
+                font-family: FontAwesome;
+                font-style: normal;
+                font-weight: normal;
+                text-decoration: inherit;
+                /*--adjust as necessary--*/
+                color: #000;
+                font-size: 18px;
+            }
+        </style>
+        {% endblock %}
+
+        {% block extrajs %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>        
+        <script type="text/javascript">
+            $(function () {
+              $('[data-toggle="tooltip"]').tooltip()
+          })
+
+            var affixElement = '#main-nav';
+
+            $(affixElement).affix({
+              offset: {
+                        // Distance of between element and top page
+                        top: function () {
+                          return (this.top = $(affixElement).offset().top)
+                      }
+                  }
+              });
+        </script>          
+        {% endblock %}        
+    </body>
+</html>

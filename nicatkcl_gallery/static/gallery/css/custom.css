@@ -1,0 +1,39 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+#showcase-carousel{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#info_button_link { 
+   padding-top: 0px;
+   padding-left: 25px;
+   background: none;
+   border: none;
+   color: #33ccff;
+   cursor: pointer; 
+}
+#info_button_link:hover {
+   color: #3366cc;
+   text-decoration: underline;
+}
+#about{
+   cursor: pointer;
+}
+#gallery-thumb {
+  padding-left: 60px;
+}
+#heading {
+  display: inline-block;
+  font-size: 18px;
+  color: white;
+  vertical-align: middle;
+  padding-top: 3px;
+}
+#heading::after {
+  content: none;
+}

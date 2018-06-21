@@ -1,0 +1,1 @@
+default_app_config = 'nic_at_kcl_gallery.apps.GalleryAppConfig'
